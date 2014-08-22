@@ -3,7 +3,7 @@
 \alias{traveleventavg}
 \docType{package}
 \title{
-What the package does (short line)
+Calculates average days between events
 ~~ package title ~~
 }
 \description{
@@ -21,7 +21,7 @@ License: \tab What license is it under?\cr
 ~~ An overview of how to use the package, including the most important functions ~~
 }
 \author{
-Who wrote it
+Brian Smith
 
 Maintainer: Who to complain to <yourfault@somewhere.net>
 ~~ The author and/or maintainer of the package ~~
