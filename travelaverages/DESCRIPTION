@@ -3,7 +3,7 @@ Title: An R package to help you find averages for travel events.
 Description: travelaverages is a package that helps you turn data into averages
     for different travel events.
 Version: 0.1
-Authors@R: Brian Smith
+Authors@R: # getOptions('devtools.desc.author')
 Depends:
     R (>= 3.0.2)
 License: # getOptions('devtools.desc.license')
