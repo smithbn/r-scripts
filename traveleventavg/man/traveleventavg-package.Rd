@@ -23,7 +23,7 @@ License: \tab What license is it under?\cr
 \author{
 Brian Smith
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Maintainer: smithbn@gmail.com
 ~~ The author and/or maintainer of the package ~~
 }
 \references{
