@@ -1,6 +1,6 @@
-\name{travel_event_avg-package}
-\alias{travel_event_avg-package}
-\alias{travel_event_avg}
+\name{traveleventavg-package}
+\alias{traveleventavg-package}
+\alias{traveleventavg}
 \docType{package}
 \title{
 What the package does (short line)
@@ -12,7 +12,7 @@ More about what it does (maybe more than one line)
 }
 \details{
 \tabular{ll}{
-Package: \tab travel_event_avg\cr
+Package: \tab traveleventavg\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
 Date: \tab 2014-08-21\cr
