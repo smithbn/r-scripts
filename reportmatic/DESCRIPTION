@@ -1,0 +1,13 @@
+Package: reportmatic
+Title: Automates the creation of reporting deck.
+Description: Creates a reporting deck using slidify, opencpu and a host of
+    other tools to automate a process that was done manually.
+Version: 0.1
+Authors@R: person("Brian", "Smith", email = "smithbn@gmail.com", role =
+    c("aut", "cre"))
+Depends:
+    R (>= 3.0.2)
+License: file LICENSE
+LazyData: true
+Imports:
+    sqldf
