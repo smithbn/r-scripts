@@ -18,5 +18,5 @@ load_control_uu_counts <- function(file){
 	return(control_uu_count)
 }
 
-exposed_uu_counts <- load_exposed_uu_counts()
-load_exposed_uu_counts <- load_control_uu_counts()
+exposed_uu_counts <- load_exposed_uu_counts(file)
+load_exposed_uu_counts <- load_control_uu_counts(file)
