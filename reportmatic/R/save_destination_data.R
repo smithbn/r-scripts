@@ -44,6 +44,7 @@ colnames(airports) <- c("icao", "iata", "airport_name", "city", "state", "countr
 	sql2 <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Control';", sep = " ", collapse=" ")
 	rs2 <- dbSendQuery(mydb, sql2)
 	control_events_for_destination <- fetch(rs2, n=-1)
+	odbcCloseAll() 
 #----------------------------------
 # Calculate Exposed Events for the Destination aggregated by event_num
 #----------------------------------
