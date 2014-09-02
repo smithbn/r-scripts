@@ -8,12 +8,12 @@
 #' save_destination_data()
 save_destination_data <- function(file, ...){
 
-library('lubridate')
-library('sqldf')
-library('ggplot2')
-library('plyr')
-library('timeDate')
-library('grid')
+require('lubridate')
+require('sqldf')
+require('ggplot2')
+require('plyr')
+require('timeDate')
+require('grid')
 
 #----------------------------------
 # Load the uu counts
@@ -31,8 +31,6 @@ colnames(airports) <- c("icao", "iata", "airport_name", "city", "state", "countr
 #----------------------------------
 # Calculate Exposed Events for the Destination
 #----------------------------------
-#exposed_events_for_destination <- event_data[which(event_data$destination_airport %in% destination_airport_list[,1] | ( event_data$hotel_city %in% destination_city_list[,1] &  event_data$hotel_state %in% destination_state_list[,1]) | event_data$rental_city %in% destination_city_list[,1] | event_data$rental_city %in% destination_airport_list[,1] | event_data$vacation_airport_destination %in% destination_airport_list[,1]),]
-
 
     require('RMySQL')
 	mydb = dbConnect(MySQL(), user='root', password='O87RlR0lbe', dbname='destinationdb', host='127.0.0.1')
@@ -42,7 +40,6 @@ colnames(airports) <- c("icao", "iata", "airport_name", "city", "state", "countr
 #----------------------------------
 # Calculate Control Events for the Destination
 #----------------------------------
-#control_events_for_destination <- control_data[which(event_data$destination_airport %in% destination_airport_list | ( event_data$hotel_city %in% destination_city_list &  event_data$hotel_state %in% destination_state_list) | event_data$rental_city %in% destination_city_list | event_data$rental_city %in% destination_airport_list | event_data$vacation_airport_destination %in% destination_airport_list),]
 
 	sql2 <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Control';", sep = " ", collapse=" ")
 	rs2 <- dbSendQuery(mydb, sql2)
