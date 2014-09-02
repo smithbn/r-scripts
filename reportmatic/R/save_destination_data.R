@@ -39,7 +39,6 @@ colnames(airports) <- c("icao", "iata", "airport_name", "city", "state", "countr
 	sql <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Exposed';", sep = " ", collapse=" ")
 	rs <- dbSendQuery(mydb, sql)
 	exposed_events_for_destination <- fetch(rs, n=-1)
-    close(mydb)
 #----------------------------------
 # Calculate Control Events for the Destination
 #----------------------------------
@@ -49,8 +48,7 @@ colnames(airports) <- c("icao", "iata", "airport_name", "city", "state", "countr
 	mydb = dbConnect(MySQL(), user='root', password='O87RlR0lbe', dbname='destinationdb', host='127.0.0.1')
 	sql <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Control';", sep = " ", collapse=" ")
 	rs <- dbSendQuery(mydb, sql)
-	exposed_events_for_destination <- fetch(rs, n=-1)
-    close(mydb)
+	control_events_for_destination <- fetch(rs, n=-1)
 #----------------------------------
 # Calculate Exposed Events for the Destination aggregated by event_num
 #----------------------------------
