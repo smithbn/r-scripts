@@ -25,7 +25,7 @@
         $("#submitbutton").attr("disabled", "disabled");
 
         //perform the request
-        var req = ocpu.call("call_it_a_wrap", {
+        var req = ocpu.call("save_destination_data", {
           file : myfile,
           header : myheader
         }, function(session){
