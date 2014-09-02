@@ -25,11 +25,11 @@
         $("#submitbutton").attr("disabled", "disabled");
 
         //perform the request
-        var req = ocpu.call("save_destination_data", {
+        var req = ocpu.call("call_it_a_wrap", {
           file : myfile,
           header : myheader
         }, function(session){
-          $("#printlink").attr("href", session.getLoc() + "R/.val/print")
+          $("#printlink").attr("href", session.getLoc() + "/zip")
           $("#rdalink").attr("href", session.getLoc() + "R/.val/rda")
           $("#csvlink").attr("href", session.getLoc() + "R/.val/csv")
           $("#tablink").attr("href", session.getLoc() + "R/.val/tab")
