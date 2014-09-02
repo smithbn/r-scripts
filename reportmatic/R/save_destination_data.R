@@ -12,7 +12,7 @@ save_destination_data <- function(file, ...){
   }
     require('RMySQL')
 	mydb = dbConnect(MySQL(), user='root', password='O87RlR0lbe', dbname='destinationdb', host='127.0.0.1')
-	rs = dbSendQuery(mydb, "LOAD DATA INFILE file INTO TABLE event_data FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES;")
+	rs = dbSendQuery(mydb, "LOAD DATA INFILE file INTO TABLE event_data FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n' IGNORE 1 LINES;")
 	close(mydb)
 	invisible()
 }
