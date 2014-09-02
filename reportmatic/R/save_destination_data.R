@@ -69,24 +69,6 @@ exposed_uu_searches_sum <- as.data.frame(sum(exposed_uu_searches$freq))
 #----------------------------------
 # Count unique travelers from the control bucket
 #----------------------------------
-#control_confirm_events_for_destination_deduped_ids <- as.data.frame(unique(control_events_for_destination[which(control_events_for_destination$event_type=='FLIGHT_CONFIRMATION' | control_events_for_destination$event_type=='HOTEL_CONFIRMATION' | control_events_for_destination$event_type=='CAR_CONFIRMATION'),'profileid'],incomparables=FALSE))
-#colnames(control_confirm_events_for_destination_deduped_ids) <- "profileid"
-#control_uu_confirms <- count(control_confirm_events_for_destination_deduped_ids)
-#control_uu_confirms_sum <- as.data.frame(sum(control_uu_confirms$freq))
-
-control_confirm_events_for_destination_deduped_ids <- as.data.frame(unique(control_events_for_destination[which(control_events_for_destination$event_type=='FLIGHT_CONFIRMATION' | control_events_for_destination$event_type=='HOTEL_CONFIRMATION' | control_events_for_destination$event_type=='CAR_CONFIRMATION'),'profileid'],incomparables=FALSE))
-colnames(control_confirm_events_for_destination_deduped_ids) <- "profileid"
-control_deduped_confirmer_events <- merge(x = as.data.frame(control_confirm_events_for_destination_deduped_ids), y = as.data.frame(control_events_for_destination), by.x="profileid", by.y="profileid", all.x=TRUE, all.y=FALSE)
-control_deduped_flight_confirmation_events <- subset(control_deduped_confirmer_events, event_type=='FLIGHT_CONFIRMATION')
-control_deduped_flight_confirmation_events <- unique(control_deduped_flight_confirmation_events[,-3])
-control_deduped_hotel_confirmation_events <- subset(control_deduped_confirmer_events, event_type=='HOTEL_CONFIRMATION')
-control_deduped_hotel_confirmation_events <- unique(control_deduped_hotel_confirmation_events[,-3])
-control_deduped_car_confirmation_events <- subset(control_deduped_confirmer_events, event_type=='CAR_CONFIRMATION')
-control_deduped_car_confirmation_events <- unique(control_deduped_car_confirmation_events[,-3])
-control_deduped_confirmation_events <- rbind(control_deduped_flight_confirmation_events, control_deduped_hotel_confirmation_events, control_deduped_car_confirmation_events)
-control_deduped_confirmation_events_deduped_ids <- as.data.frame(unique(control_deduped_confirmation_events[which(control_deduped_confirmation_events$event_type=='FLIGHT_CONFIRMATION' | control_deduped_confirmation_events$event_type=='HOTEL_CONFIRMATION' | control_deduped_confirmation_events$event_type=='CAR_CONFIRMATION'),'profileid'],incomparables=FALSE))
-control_uu_confirms <- count(control_deduped_confirmation_events_deduped_ids)
-control_uu_confirms_sum <- as.data.frame(sum(control_uu_confirms$freq))
 
 #----------------------------------
 # Count unique travelers from the exposed bucket
