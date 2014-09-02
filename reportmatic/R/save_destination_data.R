@@ -6,7 +6,7 @@
 #' @export
 #' @examples
 #' save_destination_data()
-save_destination_data <- function(file){
+save_destination_data <- function(file, ...){
   if(!grepl(".csv$", file)){
     stop("Uploaded file must be a .csv file!")
   }
