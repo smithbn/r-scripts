@@ -44,11 +44,9 @@ colnames(airports) <- c("icao", "iata", "airport_name", "city", "state", "countr
 #----------------------------------
 #control_events_for_destination <- control_data[which(event_data$destination_airport %in% destination_airport_list | ( event_data$hotel_city %in% destination_city_list &  event_data$hotel_state %in% destination_state_list) | event_data$rental_city %in% destination_city_list | event_data$rental_city %in% destination_airport_list | event_data$vacation_airport_destination %in% destination_airport_list),]
 
-    require('RMySQL')
-	mydb = dbConnect(MySQL(), user='root', password='O87RlR0lbe', dbname='destinationdb', host='127.0.0.1')
-	sql <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Control';", sep = " ", collapse=" ")
-	rs <- dbSendQuery(mydb, sql)
-	control_events_for_destination <- fetch(rs, n=-1)
+	sql2 <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Control';", sep = " ", collapse=" ")
+	rs2 <- dbSendQuery(mydb, sql2)
+	control_events_for_destination <- fetch(rs2, n=-1)
 #----------------------------------
 # Calculate Exposed Events for the Destination aggregated by event_num
 #----------------------------------
