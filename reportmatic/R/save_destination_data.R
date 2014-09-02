@@ -6,7 +6,7 @@
 #' @export
 #' @examples
 #' save_destination_data()
-
+load_uu_counts <- function(){
 load_exposed_uu_counts <- function(file){
 	uu_count <- as.data.frame(read.csv(file, header = TRUE, sep = ",", quote = "\""))
 	exposed_uu_count <- as.data.frame(as.numeric(as.character(uu_count[1,2])))
@@ -20,3 +20,4 @@ load_control_uu_counts <- function(file){
 
 exposed_uu_counts <- load_exposed_uu_counts(file)
 load_exposed_uu_counts <- load_control_uu_counts(file)
+}
