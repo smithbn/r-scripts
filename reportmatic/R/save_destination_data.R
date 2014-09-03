@@ -213,29 +213,7 @@ hotel_confirm_events_for_destination_deduped_ids <- as.data.frame(unique(exposed
 colnames(hotel_confirm_events_for_destination_deduped_ids) <- "profileid"
 deduped_hotel_confirmer_events <- merge(x = as.data.frame(hotel_confirm_events_for_destination_deduped_ids), y = as.data.frame(exposed_events_for_destination), by.x="profileid", by.y="profileid", all.x=TRUE, all.y=FALSE)
 
-#----------------------------------
-# Hotel Nights Confirmed
-#----------------------------------
-if (nrow(subset(deduped_hotel_confirmer_events, event_type=='HOTEL_CONFIRMATION'))>0) {
-hotel_confirm_events_for_destination_deduped <- subset(deduped_hotel_confirmer_events, event_type=='HOTEL_CONFIRMATION' & check_in_date!="" & check_out_date!="" & check_in_date!='NaN-NaN-NaN' & check_out_date!='NaN-NaN-NaN' & check_in_date!='mm/dd/yy' & check_out_date!='mm/dd/yy')
-hotel_confirm_events_for_destination_deduped <- unique(hotel_confirm_events_for_destination_deduped[,-3])
-hotel_confirm_events_for_destination_deduped <- count(hotel_confirm_events_for_destination_deduped, c('profileid', 'event_type', 'partner', 'origin_airport', 'destination_airport', 'departure_date', 'return_date', 'number_of_travelers', 'hotel_city', 'hotel_state', 'hotel_country', 'check_in_date', 'check_out_date', 'number_of_rooms', 'rental_city', 'rental_dropoff_city', 'rental_pickup_date', 'rental_dropoff_date', 'vacation_airport_origin', 'vacation_airport_destination', 'vacation_departure_date', 'vacation_return_date'))
-colnames(hotel_confirm_events_for_destination_deduped) <- c('profileid', 'event_type', 'partner', 'origin_airport', 'destination_airport', 'departure_date', 'return_date', 'number_of_travelers', 'hotel_city', 'hotel_state', 'hotel_country', 'check_in_date', 'check_out_date', 'number_of_rooms', 'rental_city', 'rental_dropoff_city', 'rental_pickup_date', 'rental_dropoff_date', 'vacation_airport_origin', 'vacation_airport_destination', 'vacation_departure_date', 'vacation_return_date', 'event_num')
-hotel_confirm_events_for_destination_deduped$check_out_date <- ymd(hotel_confirm_events_for_destination_deduped$check_out_date)
-hotel_confirm_events_for_destination_deduped$check_in_date <- ymd(hotel_confirm_events_for_destination_deduped$check_in_date)
-hotel_confirm_events_cleaned <- hotel_confirm_events_for_destination_deduped[which(hotel_confirm_events_for_destination_deduped$check_in_date!='' & hotel_confirm_events_for_destination_deduped$check_out_date!=''),]
-for (i in 1:length(hotel_confirm_events_cleaned) ) {
-hotel_confirm_events_cleaned$hotel_duration_of_stay <- hotel_confirm_events_cleaned$check_out_date - hotel_confirm_events_cleaned$check_in_date
-}
 
-hotel_confirm_events_cleaned$hotel_nights_confirmed <- as.numeric(hotel_confirm_events_cleaned$event_num) * as.numeric(hotel_confirm_events_cleaned$hotel_duration_of_stay)
-hotel_nights_confirmed <- as.data.frame(sum(hotel_confirm_events_cleaned$hotel_nights_confirmed, na.rm = TRUE))
-colnames(hotel_nights_confirmed) <- 'Total Hotel Nights Confirmed'
-}else {
-hotel_nights_confirmed <- data.frame(matrix(ncol = 1, nrow = 1))
-hotel_nights_confirmed[1,1] <- 0
-colnames(hotel_nights_confirmed) <- 'Total Hotel Nights Confirmed'
-}
 
 #----------------------------------
 # Hotel Rooms Booked
