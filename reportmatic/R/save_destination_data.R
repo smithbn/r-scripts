@@ -213,7 +213,34 @@ hotel_confirm_events_for_destination_deduped_ids <- as.data.frame(unique(exposed
 colnames(hotel_confirm_events_for_destination_deduped_ids) <- "profileid"
 deduped_hotel_confirmer_events <- merge(x = as.data.frame(hotel_confirm_events_for_destination_deduped_ids), y = as.data.frame(exposed_events_for_destination), by.x="profileid", by.y="profileid", all.x=TRUE, all.y=FALSE)
 
+#----------------------------------
+# Hotel Nights Confirmed
+#----------------------------------
+hotel_search_events <- subset(events_for_destination, events_for_destination$event_type == 'HOTEL_SEARCH' & events_for_destination$check_in_date!="" & events_for_destination$check_out_date!="" & check_in_date!='NaN-NaN-NaN' & check_out_date!='NaN-NaN-NaN' & check_in_date!='mm/dd/yy' & check_out_date!='mm/dd/yy')
+hotel_search_events$check_out_date <- ymd(hotel_search_events$check_out_date)
+hotel_search_events$check_in_date <- ymd(hotel_search_events$check_in_date)
+hotel_search_events$hotel_duration_of_stay <- hotel_search_events$check_out_date - hotel_search_events$check_in_date
+hotel_search_events$hotel_nights_searched <- as.numeric(hotel_search_events$event_num) * as.numeric(hotel_search_events$hotel_duration_of_stay)
+hotel_nights_searched <- as.data.frame(sum(hotel_search_events$hotel_nights_searched, na.rm = TRUE))
+colnames(hotel_nights_searched) <- 'Total Hotel Nights Searched'
 
+if (nrow(subset(deduped_hotel_confirmer_events, event_type=='HOTEL_CONFIRMATION'))>0) {
+hotel_confirm_events_for_destination_deduped <- subset(deduped_hotel_confirmer_events, event_type=='HOTEL_CONFIRMATION' & check_in_date!="" & check_out_date!="" & check_in_date!='NaN-NaN-NaN' & check_out_date!='NaN-NaN-NaN' & check_in_date!='mm/dd/yy' & check_out_date!='mm/dd/yy')
+hotel_confirm_events_for_destination_deduped$check_out_date <- ymd(hotel_confirm_events_for_destination_deduped$check_out_date)
+hotel_confirm_events_for_destination_deduped$check_in_date <- ymd(hotel_confirm_events_for_destination_deduped$check_in_date)
+hotel_confirm_events_cleaned <- hotel_confirm_events_for_destination_deduped[which(hotel_confirm_events_for_destination_deduped$check_in_date!='' & hotel_confirm_events_for_destination_deduped$check_out_date!=''),]
+for (i in 1:length(hotel_confirm_events_cleaned) ) {
+hotel_confirm_events_cleaned$hotel_duration_of_stay <- hotel_confirm_events_cleaned$check_out_date - hotel_confirm_events_cleaned$check_in_date
+}
+
+hotel_confirm_events_cleaned$hotel_nights_confirmed <- as.numeric(hotel_confirm_events_cleaned$event_num) * as.numeric(hotel_confirm_events_cleaned$hotel_duration_of_stay)
+hotel_nights_confirmed <- as.data.frame(sum(hotel_confirm_events_cleaned$hotel_nights_confirmed, na.rm = TRUE))
+colnames(hotel_nights_confirmed) <- 'Total Hotel Nights Confirmed'
+}else {
+hotel_nights_confirmed <- data.frame(matrix(ncol = 1, nrow = 1))
+hotel_nights_confirmed[1,1] <- 0
+colnames(hotel_nights_confirmed) <- 'Total Hotel Nights Confirmed'
+}
 
 #----------------------------------
 # Hotel Rooms Booked
@@ -258,7 +285,7 @@ write.csv(lift[,-1], file = "lift_results.csv", row.names=FALSE)
 write.csv(total_confirmed_travelers, file = "total_confirmed_travelers.csv", row.names=FALSE)
 write.csv(flight_confirm_orig_markets, file = "flight_confirm_orig_markets.csv", row.names=FALSE)
 write.csv(flight_search_orig_markets, file = "flight_search_orig_markets.csv", row.names=FALSE)
-#write.csv(hotel_nights_confirmed, file = "hotel_nights_confirmed.csv", row.names=FALSE)
+write.csv(hotel_nights_confirmed, file = "hotel_nights_confirmed.csv", row.names=FALSE)
 write.csv(hotel_nights_searched, file = "hotel_nights_searched.csv", row.names=FALSE)
 write.csv(total_rooms_booked, file = "hotel_rooms_confirmed.csv", row.names=FALSE)
 write.csv(total_rooms_searched, file = "hotel_rooms_searched.csv", row.names=FALSE)
