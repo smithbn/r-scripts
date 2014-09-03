@@ -161,8 +161,7 @@ events_for_destination_by_type.sum$cost_per_event <- round((campaign_cost / as.n
 #----------------------------------
 # Hotel Nights Searched
 #----------------------------------
-hotel_search_events <- events_for_destination[which( events_for_destination$event_type == 'HOTEL_SEARCH' & events_for_destination$check_in_date!="" & events_for_destination$check_out_date!=""),]
-hotel_search_events <- subset(hotel_search_events, check_in_date!='NaN-NaN-NaN' & check_out_date!='NaN-NaN-NaN' & check_in_date!='mm/dd/yy' & check_out_date!='mm/dd/yy')
+hotel_search_events <- subset(events_for_destination, events_for_destination$event_type == 'HOTEL_SEARCH' & events_for_destination$check_in_date!="" & events_for_destination$check_out_date!="" & check_in_date!='NaN-NaN-NaN' & check_out_date!='NaN-NaN-NaN' & check_in_date!='mm/dd/yy' & check_out_date!='mm/dd/yy')
 hotel_search_events$check_out_date <- ymd(hotel_search_events$check_out_date)
 hotel_search_events$check_in_date <- ymd(hotel_search_events$check_in_date)
 hotel_search_events$hotel_duration_of_stay <- as.Date(hotel_search_events$check_out_date) - as.Date(hotel_search_events$check_in_date)
@@ -218,8 +217,7 @@ deduped_hotel_confirmer_events <- merge(x = as.data.frame(hotel_confirm_events_f
 # Hotel Nights Confirmed
 #----------------------------------
 if (nrow(subset(deduped_hotel_confirmer_events, event_type=='HOTEL_CONFIRMATION'))>0) {
-hotel_confirm_events_for_destination_deduped <- subset(deduped_hotel_confirmer_events, event_type=='HOTEL_CONFIRMATION' & check_in_date!="" & check_out_date!="")
-hotel_confirm_events_for_destination_deduped <- subset(hotel_confirm_events_for_destination_deduped, check_in_date!='NaN-NaN-NaN' & check_out_date!='NaN-NaN-NaN' & check_in_date!='mm/dd/yy' & check_out_date!='mm/dd/yy')
+hotel_confirm_events_for_destination_deduped <- subset(deduped_hotel_confirmer_events, event_type=='HOTEL_CONFIRMATION' & check_in_date!="" & check_out_date!="" & check_in_date!='NaN-NaN-NaN' & check_out_date!='NaN-NaN-NaN' & check_in_date!='mm/dd/yy' & check_out_date!='mm/dd/yy')
 hotel_confirm_events_for_destination_deduped <- unique(hotel_confirm_events_for_destination_deduped[,-3])
 hotel_confirm_events_for_destination_deduped <- count(hotel_confirm_events_for_destination_deduped, c('profileid', 'event_type', 'partner', 'origin_airport', 'destination_airport', 'departure_date', 'return_date', 'number_of_travelers', 'hotel_city', 'hotel_state', 'hotel_country', 'check_in_date', 'check_out_date', 'number_of_rooms', 'rental_city', 'rental_dropoff_city', 'rental_pickup_date', 'rental_dropoff_date', 'vacation_airport_origin', 'vacation_airport_destination', 'vacation_departure_date', 'vacation_return_date'))
 colnames(hotel_confirm_events_for_destination_deduped) <- c('profileid', 'event_type', 'partner', 'origin_airport', 'destination_airport', 'departure_date', 'return_date', 'number_of_travelers', 'hotel_city', 'hotel_state', 'hotel_country', 'check_in_date', 'check_out_date', 'number_of_rooms', 'rental_city', 'rental_dropoff_city', 'rental_pickup_date', 'rental_dropoff_date', 'vacation_airport_origin', 'vacation_airport_destination', 'vacation_departure_date', 'vacation_return_date', 'event_num')
