@@ -224,10 +224,6 @@ write.csv(lift[,-1], file = "lift_results.csv", row.names=FALSE)
 write.csv(total_confirmed_travelers, file = "total_confirmed_travelers.csv", row.names=FALSE)
 write.csv(flight_confirm_orig_markets, file = "flight_confirm_orig_markets.csv", row.names=FALSE)
 write.csv(flight_search_orig_markets, file = "flight_search_orig_markets.csv", row.names=FALSE)
-write.csv(hotel_nights_confirmed, file = "hotel_nights_confirmed.csv", row.names=FALSE)
-write.csv(hotel_nights_searched, file = "hotel_nights_searched.csv", row.names=FALSE)
-write.csv(total_rooms_booked, file = "hotel_rooms_confirmed.csv", row.names=FALSE)
-write.csv(total_rooms_searched, file = "hotel_rooms_searched.csv", row.names=FALSE)
 write.csv(events_for_destination_by_type.sum, file = "events_for_destination_by_type.csv", row.names=FALSE)
 
 }
