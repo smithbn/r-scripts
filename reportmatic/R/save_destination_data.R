@@ -306,3 +306,4 @@ write.csv(total_rooms_booked, file = ".hotel_rooms_confirmed.csv", row.names=FAL
 write.csv(total_rooms_searched, file = ".hotel_rooms_searched.csv", row.names=FALSE)
 write.csv(events_for_destination_by_type.sum, file = ".events_for_destination_by_type.csv", row.names=FALSE)
 
+}
