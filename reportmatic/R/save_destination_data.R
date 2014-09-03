@@ -106,6 +106,24 @@ exposed_uu_confirms <- count(deduped_confirmation_events_deduped_ids)
 exposed_uu_confirms_sum <- as.data.frame(sum(exposed_uu_confirms$freq))
 
 
+lift <- data.frame(matrix(ncol = 1, nrow = 1))
+lift$control_uu_searches_rate <- (control_uu_searches_sum[,1]/control_uu_count)
+lift$control_uu_confirms_rate <- (control_uu_confirms_sum[,1]/control_uu_count)
+lift$exposed_uu_searches_rate <- (exposed_uu_searches_sum[,1]/exposed_uu_count)
+lift$exposed_uu_confirms_rate <- (exposed_uu_confirms_sum[,1]/exposed_uu_count)
+
+lift$control_uu_searches <- control_uu_searches_sum[,1]
+lift$control_uu_confirms <- control_uu_confirms_sum[,1]
+lift$exposed_uu_searches <- exposed_uu_searches_sum[,1]
+lift$exposed_uu_confirms <- exposed_uu_confirms_sum[,1]
+
+lift$searches_lift_difference <- lift$exposed_uu_searches_rate - lift$control_uu_searches_rate
+lift$confirms_lift_difference <- lift$exposed_uu_confirms_rate - lift$control_uu_confirms_rate
+
+unique_users <- c(control_uu_count, exposed_uu_count)
+experiment_searches <- c(control_uu_searches_sum[,1], exposed_uu_searches_sum[,1]) 
+experiment_confirms <- c(control_uu_confirms_sum[,1], exposed_uu_confirms_sum[,1]) 
+
 
 #search_results_by_bucket$events_adjusted_difference <- search_results_by_bucket[2,3]-(search_results_by_bucket[1,3]/(uu[1,2]/uu[2,2]))
 #confirm_results_by_bucket$uu_adjusted_difference <- confirm_results_by_bucket[2,2]-(confirm_results_by_bucket[1,2]/(uu[1,2]/uu[2,2]))
@@ -280,7 +298,7 @@ paste('writing results')
 #----------------------------------
 # Write results to file
 #----------------------------------
-
+write.csv(lift[,-1], file = "lift_results.csv", row.names=FALSE)
 write.csv(total_confirmed_travelers, file = "total_confirmed_travelers.csv", row.names=FALSE)
 write.csv(flight_confirm_orig_markets, file = "flight_confirm_orig_markets.csv", row.names=FALSE)
 write.csv(flight_search_orig_markets, file = "flight_search_orig_markets.csv", row.names=FALSE)
