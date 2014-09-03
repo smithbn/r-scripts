@@ -164,7 +164,7 @@ events_for_destination_by_type.sum$cost_per_event <- round((campaign_cost / as.n
 hotel_search_events <- subset(events_for_destination, events_for_destination$event_type == 'HOTEL_SEARCH' & events_for_destination$check_in_date!="" & events_for_destination$check_out_date!="" & check_in_date!='NaN-NaN-NaN' & check_out_date!='NaN-NaN-NaN' & check_in_date!='mm/dd/yy' & check_out_date!='mm/dd/yy')
 hotel_search_events$check_out_date <- ymd(hotel_search_events$check_out_date)
 hotel_search_events$check_in_date <- ymd(hotel_search_events$check_in_date)
-hotel_search_events$hotel_duration_of_stay <- as.Date(hotel_search_events$check_out_date) - as.Date(hotel_search_events$check_in_date)
+hotel_search_events$hotel_duration_of_stay <- hotel_search_events$check_out_date - hotel_search_events$check_in_date
 hotel_search_events$hotel_nights_searched <- as.numeric(hotel_search_events$event_num) * as.numeric(hotel_search_events$hotel_duration_of_stay)
 hotel_nights_searched <- as.data.frame(sum(hotel_search_events$hotel_nights_searched, na.rm = TRUE))
 colnames(hotel_nights_searched) <- 'Total Hotel Nights Searched'
@@ -225,7 +225,7 @@ hotel_confirm_events_for_destination_deduped$check_out_date <- ymd(hotel_confirm
 hotel_confirm_events_for_destination_deduped$check_in_date <- ymd(hotel_confirm_events_for_destination_deduped$check_in_date)
 hotel_confirm_events_cleaned <- hotel_confirm_events_for_destination_deduped[which(hotel_confirm_events_for_destination_deduped$check_in_date!='' & hotel_confirm_events_for_destination_deduped$check_out_date!=''),]
 for (i in 1:length(hotel_confirm_events_cleaned) ) {
-hotel_confirm_events_cleaned$hotel_duration_of_stay <- as.Date(hotel_confirm_events_cleaned$check_out_date) - as.Date(hotel_confirm_events_cleaned$check_in_date)
+hotel_confirm_events_cleaned$hotel_duration_of_stay <- hotel_confirm_events_cleaned$check_out_date - hotel_confirm_events_cleaned$check_in_date
 }
 
 hotel_confirm_events_cleaned$hotel_nights_confirmed <- as.numeric(hotel_confirm_events_cleaned$event_num) * as.numeric(hotel_confirm_events_cleaned$hotel_duration_of_stay)
