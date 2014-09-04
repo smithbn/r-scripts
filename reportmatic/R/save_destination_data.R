@@ -22,11 +22,11 @@ require('grid')
     require('RMySQL')
 	mydb = dbConnect(MySQL(), user='root', password='O87RlR0lbe', dbname='destinationdb', host='127.0.0.1')
 	
-	bucket_uu_sql_exposed <- paste("SELECT exposed FROM bucket_uu_counts WHERE insertion_order ='",insertionorder,"';", sep = "", collapse=" ")
+	bucket_uu_sql_exposed <- paste("SELECT exposed FROM bucket_uu_counts WHERE insertion_order ='",insertionorder,"' LIMIT 2000;", sep = "", collapse=" ")
 	bucket_uu_query_exposed <- dbSendQuery(mydb, bucket_uu_sql_exposed)
 	exposed_uu_count <- as.numeric(fetch(bucket_uu_query_exposed, n=-1))
 	
-	bucket_uu_sql_control <- paste("SELECT control FROM bucket_uu_counts WHERE insertion_order ='",insertionorder,"';", sep = "", collapse=" ")
+	bucket_uu_sql_control <- paste("SELECT control FROM bucket_uu_counts WHERE insertion_order ='",insertionorder,"' LIMIT 2000;", sep = "", collapse=" ")
 	bucket_uu_query_control <- dbSendQuery(mydb, bucket_uu_sql_control)
 	control_uu_count <- as.numeric(fetch(bucket_uu_query_control, n=-1))
 
