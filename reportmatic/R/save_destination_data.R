@@ -6,7 +6,7 @@
 #' @export
 #' @examples
 #' save_destination_data()
-save_destination_data <- function(file, ...){
+save_destination_data <- function(insertionorder, ...){
 
 require('lubridate')
 require('sqldf')
@@ -19,29 +19,37 @@ require('grid')
 # Load the uu counts
 #----------------------------------
 
-exposed_uu_count <- as.numeric(1712647.00) 
-control_uu_count <- as.numeric(0.00) 
+    require('RMySQL')
+	mydb = dbConnect(MySQL(), user='root', password='O87RlR0lbe', dbname='destinationdb', host='127.0.0.1')
+	
+	bucket_uu_sql_exposed <- paste("SELECT exposed FROM bucket_uu_counts WHERE insertion_order =",insertionorder,";", sep = "", collapse=" ")
+	bucket_uu_query_exposed <- dbSendQuery(mydb, bucket_uu_sql_exposed)
+	exposed_uu_count <- as.numeric(fetch(bucket_uu_query_exposed, n=-1))
+	
+	bucket_uu_sql_control <- paste("SELECT control FROM bucket_uu_counts WHERE insertion_order =",insertionorder,";", sep = "", collapse=" ")
+	bucket_uu_query_control <- dbSendQuery(mydb, bucket_uu_sql_control)
+	control_uu_count <- as.numeric(fetch(bucket_uu_query_control, n=-1))
 
 #----------------------------------
 # List of All Airports
 #----------------------------------
-airports <- read.csv(file, header=F)
-colnames(airports) <- c("icao", "iata", "airport_name", "city", "state", "country")
+
+	airport_sql <- paste("SELECT * FROM airports;")
+	airport_query <- dbSendQuery(mydb, airport_sql)
+	airports <- fetch(airport_query, n=-1)
 
 #----------------------------------
 # Calculate Exposed Events for the Destination
 #----------------------------------
 
-    require('RMySQL')
-	mydb = dbConnect(MySQL(), user='root', password='O87RlR0lbe', dbname='destinationdb', host='127.0.0.1')
-	sql <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Exposed';", sep = " ", collapse=" ")
+	sql <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Exposed' AND insertion_order =",insertionorder,";", sep = "", collapse=" ")
 	rs <- dbSendQuery(mydb, sql)
 	exposed_events_for_destination <- fetch(rs, n=-1)
 #----------------------------------
 # Calculate Control Events for the Destination
 #----------------------------------
 
-	sql2 <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Control';", sep = " ", collapse=" ")
+	sql2 <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Control' AND insertion_order =",insertionorder,";", sep = "", collapse=" ")
 	rs2 <- dbSendQuery(mydb, sql2)
 	control_events_for_destination <- fetch(rs2, n=-1)
 	all_cons <- dbListConnections(MySQL())
@@ -213,23 +221,7 @@ hotel_confirm_events_for_destination_deduped_ids <- as.data.frame(unique(exposed
 colnames(hotel_confirm_events_for_destination_deduped_ids) <- "profileid"
 deduped_hotel_confirmer_events <- merge(x = as.data.frame(hotel_confirm_events_for_destination_deduped_ids), y = as.data.frame(exposed_events_for_destination), by.x="profileid", by.y="profileid", all.x=TRUE, all.y=FALSE)
 
-#----------------------------------
-# Hotel Nights Confirmed
-#----------------------------------
-if (nrow(subset(deduped_hotel_confirmer_events, event_type=='HOTEL_CONFIRMATION'))>0) {
-hotel_confirm_events_for_destination_deduped <- subset(deduped_hotel_confirmer_events, event_type=='HOTEL_CONFIRMATION' & check_in_date!="" & check_out_date!="" & check_in_date!='NaN-NaN-NaN' & check_out_date!='NaN-NaN-NaN' & check_in_date!='mm/dd/yy' & check_out_date!='mm/dd/yy')
-hotel_confirm_events_for_destination_deduped$check_out_date <- ymd(hotel_confirm_events_for_destination_deduped$check_out_date)
-hotel_confirm_events_for_destination_deduped$check_in_date <- ymd(hotel_confirm_events_for_destination_deduped$check_in_date)
-hotel_confirm_events_cleaned <- hotel_confirm_events_for_destination_deduped[which(hotel_confirm_events_for_destination_deduped$check_in_date!='' & hotel_confirm_events_for_destination_deduped$check_out_date!=''),]
-hotel_confirm_events_cleaned$hotel_duration_of_stay <- hotel_confirm_events_cleaned$check_out_date - hotel_confirm_events_cleaned$check_in_date
-hotel_confirm_events_cleaned$hotel_nights_confirmed <- as.numeric(as.character(hotel_confirm_events_cleaned$event_num)) * as.numeric(as.character(hotel_confirm_events_cleaned$hotel_duration_of_stay))
-hotel_nights_confirmed <- as.data.frame(sum(hotel_confirm_events_cleaned$hotel_nights_confirmed, na.rm = TRUE))
-colnames(hotel_nights_confirmed) <- 'Total Hotel Nights Confirmed'
-}else {
-hotel_nights_confirmed <- data.frame(matrix(ncol = 1, nrow = 1))
-hotel_nights_confirmed[1,1] <- 0
-colnames(hotel_nights_confirmed) <- 'Total Hotel Nights Confirmed'
-}
+
 
 #----------------------------------
 # Hotel Rooms Booked
@@ -274,7 +266,7 @@ write.csv(lift[,-1], file = "lift_results.csv", row.names=FALSE)
 write.csv(total_confirmed_travelers, file = "total_confirmed_travelers.csv", row.names=FALSE)
 write.csv(flight_confirm_orig_markets, file = "flight_confirm_orig_markets.csv", row.names=FALSE)
 write.csv(flight_search_orig_markets, file = "flight_search_orig_markets.csv", row.names=FALSE)
-write.csv(hotel_nights_confirmed, file = "hotel_nights_confirmed.csv", row.names=FALSE)
+#write.csv(hotel_nights_confirmed, file = "hotel_nights_confirmed.csv", row.names=FALSE)
 write.csv(hotel_nights_searched, file = "hotel_nights_searched.csv", row.names=FALSE)
 write.csv(total_rooms_booked, file = "hotel_rooms_confirmed.csv", row.names=FALSE)
 write.csv(total_rooms_searched, file = "hotel_rooms_searched.csv", row.names=FALSE)

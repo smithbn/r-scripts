@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Uploading a file</title>
+    <title>Wrap Report Data Generator</title>
     
     <!-- Include order: first jquery, then opencpu.js, and then your code -->
     <script src="opencpu/jquery-1.10.2.min.js"></script>
@@ -13,11 +13,10 @@
       $("#submitbutton").on("click", function(){
 
         //arguments
-        var myheader = $("#header").val() == "true";
-        var myfile = $("#csvfile")[0].files[0];
+        var insertionorder = $("#insertionorder").val()=="CHOOSE";
         
-        if(!myfile){
-          alert("No file selected.");
+        if(!insertionorder){
+          alert("No insertion Order selected.");
           return;
         }
 
@@ -26,8 +25,7 @@
 
         //perform the request
         var req = ocpu.call("save_destination_data", {
-          file : myfile,
-          header : myheader
+          insertionorder : insertionorder
         }, function(session){
           $("#printlink").attr("href", session.getLoc() + "/zip")
         });
@@ -53,13 +51,9 @@
     
   <body>
     <h1>Uploading a File</h1>
-    
-    <b>File</b> <input type="file" id="csvfile"> 
-    <br />
-    
-    <b>Header</b> <select id="header">
-      <option>true</option>
-      <option>false</option>
+    <b>Insertion Order:</b> <select id="header">
+	  <option>CHOOSE</option>
+      <option>Destination BC_Summer14_050114</option>
     </select> 
     
     <br />

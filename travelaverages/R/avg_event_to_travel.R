@@ -1,4 +1,11 @@
-# A function to find the average number of days between when someone books their flight and when they depart for the destination.
+#' A Cat Function
+#'
+#' This function allows you to express your love of cats.
+#' @param love Do you love cats? Defaults to TRUE.
+#' @keywords cats
+#' @export
+#' @examples
+#' avg_event_to_travel()
 avg_event_to_travel <- function(x){
   data <- subset(x, event_type=='FLIGHT_CONFIRMATION' & event_to_travel!='NULL')
   colnames(data) <- c('event_date','event_type','partner','origin_airport','destination_airport','number_of_travelers','departure_date','return_date','duration','event_to_travel','num_events')
