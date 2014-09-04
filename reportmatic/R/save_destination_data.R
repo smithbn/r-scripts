@@ -22,11 +22,11 @@ require('grid')
     require('RMySQL')
 	mydb = dbConnect(MySQL(), user='root', password='O87RlR0lbe', dbname='destinationdb', host='127.0.0.1')
 	
-	bucket_uu_sql_exposed <- paste("SELECT exposed FROM bucket_uu_counts WHERE insertion_order =",insertionorder,";", sep = "", collapse=" ")
+	bucket_uu_sql_exposed <- paste("SELECT exposed FROM bucket_uu_counts WHERE insertion_order ='",insertionorder,"';", sep = "", collapse=" ")
 	bucket_uu_query_exposed <- dbSendQuery(mydb, bucket_uu_sql_exposed)
 	exposed_uu_count <- as.numeric(fetch(bucket_uu_query_exposed, n=-1))
 	
-	bucket_uu_sql_control <- paste("SELECT control FROM bucket_uu_counts WHERE insertion_order =",insertionorder,";", sep = "", collapse=" ")
+	bucket_uu_sql_control <- paste("SELECT control FROM bucket_uu_counts WHERE insertion_order ='",insertionorder,"';", sep = "", collapse=" ")
 	bucket_uu_query_control <- dbSendQuery(mydb, bucket_uu_sql_control)
 	control_uu_count <- as.numeric(fetch(bucket_uu_query_control, n=-1))
 
@@ -42,14 +42,14 @@ require('grid')
 # Calculate Exposed Events for the Destination
 #----------------------------------
 
-	sql <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Exposed' AND insertion_order =",insertionorder,";", sep = "", collapse=" ")
+	sql <- paste("SELECT 'profileid', 'event_date', 'event_type', 'partner', 'origin_airport', 'destination_airport', 'departure_date', 'return_date', 'number_of_travelers', 'hotel_city', 'hotel_state', 'hotel_country', 'check_in_date', 'check_out_date', 'number_of_rooms', 'rental_city', 'rental_dropoff_city', 'rental_pickup_date', 'rental_dropoff_date', 'vacation_airport_origin', 'vacation_airport_destination', 'vacation_departure_date', 'vacation_return_date' FROM event_data WHERE experiment_bucket = 'Exposed' AND insertion_order ='",insertionorder,"';", sep = "", collapse=" ")
 	rs <- dbSendQuery(mydb, sql)
 	exposed_events_for_destination <- fetch(rs, n=-1)
 #----------------------------------
 # Calculate Control Events for the Destination
 #----------------------------------
 
-	sql2 <- paste("SELECT * FROM event_data WHERE experiment_bucket = 'Control' AND insertion_order =",insertionorder,";", sep = "", collapse=" ")
+	sql2 <- paste("SELECT 'profileid', 'event_date', 'event_type', 'partner', 'origin_airport', 'destination_airport', 'departure_date', 'return_date', 'number_of_travelers', 'hotel_city', 'hotel_state', 'hotel_country', 'check_in_date', 'check_out_date', 'number_of_rooms', 'rental_city', 'rental_dropoff_city', 'rental_pickup_date', 'rental_dropoff_date', 'vacation_airport_origin', 'vacation_airport_destination', 'vacation_departure_date', 'vacation_return_date' FROM event_data WHERE experiment_bucket = 'Control' AND insertion_order ='",insertionorder,"';", sep = "", collapse=" ")
 	rs2 <- dbSendQuery(mydb, sql2)
 	control_events_for_destination <- fetch(rs2, n=-1)
 	all_cons <- dbListConnections(MySQL())
