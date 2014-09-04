@@ -13,7 +13,7 @@
       $("#submitbutton").on("click", function(){
 
         //arguments
-        var insertionorder = $("#insertionorder").val()=="CHOOSE";
+        var insertionorder = $("#insertionorder").val();
         
         if(!insertionorder){
           alert("No insertion Order selected.");
@@ -50,7 +50,7 @@
   </head>
     
   <body>
-    <h1>Uploading a File</h1>
+    <h1>Wrap Report Data Generator</h1>
     <b>Insertion Order:</b> <select id="header">
 	  <option>CHOOSE</option>
       <option>Destination BC_Summer14_050114</option>
