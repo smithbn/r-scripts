@@ -28,7 +28,7 @@ $(document).ready(function(){
     //perform the request
     var req2 = ocpu.call("heatmap_calendar", {
       mydata : mydata
-    } function(session){
+    }, function(session){
 
     //read the session properties (just for fun)
     $("#printlink").attr("href", session.getLoc() + "/zip");
