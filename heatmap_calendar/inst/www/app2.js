@@ -32,7 +32,7 @@ $(document).ready(function(){
 
     //read the session properties (just for fun)
     $("#printlink").attr("href", session.getLoc() + "/zip");
-	$("img").attr("src", session.getLoc() + "/heatmap.png");
+	$("img").attr("src", session.getLoc() + "files/heatmap.png");
 })
   }
 
