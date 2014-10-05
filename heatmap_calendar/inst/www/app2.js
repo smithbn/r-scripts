@@ -34,8 +34,7 @@ $(document).ready(function(){
     $("#printlink").attr("href", session.getLoc() + "/zip");
 	$("#plotdiv").attr("href", session.getFile("heatmap.png", function(chart){
         successmsg(chart);
-      });
-	  );
+      }));
 })
   }
 
