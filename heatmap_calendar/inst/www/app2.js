@@ -32,9 +32,7 @@ $(document).ready(function(){
 
     //read the session properties (just for fun)
     $("#printlink").attr("href", session.getLoc() + "/zip");
-	$("#plotdiv").attr("href", session.getFile("heatmap.png", function(chart){
-        success(chart);
-      }));
+	$("img").attr("src", session.getFile("heatmap.png"));
 })
   }
 
