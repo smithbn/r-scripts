@@ -26,16 +26,15 @@ $(document).ready(function(){
   
   function heatmap_calendar(mydata){
     //perform the request
-    var req = ocpu.call("heatmap_calendar_big", {
+    var req2 = ocpu.call("heatmap_calendar", {
       mydata : mydata
-    }, function(session){
-          $("#printlink").attr("href", session.getLoc() + "/zip")
-        });
-    }).fail(function(){
-      alert("Server error: " + req.responseText);
-    });        
+    } function(session){
+
+    //read the session properties (just for fun)
+    $("#printlink").attr("href", session.getLoc() + "/zip");
+})
   }
-  
+
   $("#submitbutton").on("click", function(){
     
     //arguments
