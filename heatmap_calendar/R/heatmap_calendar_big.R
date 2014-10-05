@@ -1,11 +1,11 @@
 #' A function to create heatmap calendars from event data.
 #'
-#' This function creates four heatmap calendars from an uploaded csv file.
+#' This function creates one heatmap calendar with a bar chart above.
 #' @param file read in a csv file.
 #' @keywords event data
 #' @export
 #' @examples
-#' heatmap_calendar()
+#' heatmap_calendar_big()
 heatmap_calendar_big <- function(mydata){
     
     require('lubridate')

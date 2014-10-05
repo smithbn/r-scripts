@@ -9,10 +9,10 @@ heatmap_calendar_big(mydata)
 \item{file}{read in a csv file.}
 }
 \description{
-This function creates four heatmap calendars from an uploaded csv file.
+This function creates one heatmap calendar with a bar chart above.
 }
 \examples{
-heatmap_calendar()
+heatmap_calendar_big()
 }
 \keyword{data}
 \keyword{event}

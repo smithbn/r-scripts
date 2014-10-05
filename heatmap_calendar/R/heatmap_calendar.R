@@ -1,6 +1,6 @@
 #' A function to create heatmap calendars from event data.
 #'
-#' This function creates four heatmap calendars from an uploaded csv file.
+#' This function creates one heatmap calendar.
 #' @param file read in a csv file.
 #' @keywords event data
 #' @export

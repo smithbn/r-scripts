@@ -13,7 +13,7 @@ heatmap_calendar(mydata)
 \description{
 heatmap_calendar
 
-This function creates four heatmap calendars from an uploaded csv file.
+This function creates one heatmap calendar.
 }
 \examples{
 heatmap_calendar()
