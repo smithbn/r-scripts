@@ -29,8 +29,8 @@ $(document).ready(function(){
     var req = ocpu.call("heatmap_calendar_big", {
       mydata : mydata
     }, function(session){
-          $("#printlink").attr("href", session.getLoc() + "/zip");
-        };
+          $("#printlink").attr("href", session.getLoc() + "/zip")
+        });
     }).fail(function(){
       alert("Server error: " + req.responseText);
     });        
