@@ -24,10 +24,9 @@ $(document).ready(function(){
     });        
   }    
   
-  
   function heatmap_calendar(mydata){
     //perform the request
-    var req = ocpu.call("heatmap_calendar", {
+    var req = ocpu.call("heatmap_calendar_big", {
       mydata : mydata
     }, function(session){
           $("#printlink").attr("href", session.getLoc() + "/zip")
