@@ -46,7 +46,7 @@ heatmap_calendar <- function(mydata){
     #----------------------------------
     daily_events <- mydata
     colnames(daily_events) <- c("event_date", "event_num")
-    daily_events$event_date <- as.Date(daily_events$event_date)
+    daily_events$event_date <- as.Date(ymd(daily_events$event_date))
     dailymean <- mean(daily_events[,'event_num'], na.rm=TRUE)
     daily_events$difference_from_mean <- daily_events$event_num - dailymean
     daily_events$month <- month(daily_events$event_date, label = TRUE, abbr = TRUE)
