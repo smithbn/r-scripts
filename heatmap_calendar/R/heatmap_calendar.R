@@ -83,7 +83,7 @@ heatmap_calendar <- function(mydata){
             geom_tile(colour = "white") +
             geom_text(aes(label=day, size=0.1)) +
             facet_grid(year ~ month) +
-            scale_fill_gradientn(colours=brewer.pal(9,"YlOrRd"), name="Difference\nfrom Mean")
+            scale_fill_gradientn(colours = c("#ffeda0","#feb24c","#f03b20"), name="Difference\nfrom Mean")
     )
     dev.off()
     
