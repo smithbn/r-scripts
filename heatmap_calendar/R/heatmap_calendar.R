@@ -46,7 +46,11 @@ heatmap_calendar <- function(mydata){
     #----------------------------------
     daily_events <- mydata
     colnames(daily_events) <- c("event_date", "event_num")
-    daily_events$event_date <- as.Date(ymd(daily_events$event_date))
+	daily_events <- daily_events[daily_events$event_date!='NaN-NaN-NaN',]
+	daily_events <- daily_events[daily_events$event_date!='',]
+	daily_events <- daily_events[nchar(as.character(daily_events$event_date))<=10,]
+    daily_events$event_date <- ymd(daily_events$event_date, quiet = TRUE)
+	daily_events <- daily_events[which(as.character(daily_events$event_date)!='NA'),]
     dailymean <- mean(daily_events[,'event_num'], na.rm=TRUE)
     daily_events$difference_from_mean <- daily_events$event_num - dailymean
     daily_events$month <- month(daily_events$event_date, label = TRUE, abbr = TRUE)
