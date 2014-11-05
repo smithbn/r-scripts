@@ -1,0 +1,12 @@
+Package: causalapp
+Title: Automates causal impact analysis
+Description: Creates a reporting deck using the Causal Impact package.
+Version: 0.1
+Authors@R: person("Brian", "Smith", email = "smithbn@gmail.com", role =
+    c("aut", "cre"))
+Depends:
+    R (>= 3.0.2)
+License: file LICENSE
+LazyData: true
+Imports:
+    CausalImpact

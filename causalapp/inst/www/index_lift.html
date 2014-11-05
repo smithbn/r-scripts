@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wrap Report Data Generator</title>
+    
+    <!-- Include order: first jquery, then opencpu.js, and then your code -->
+    <script src="opencpu/jquery-1.10.2.min.js"></script>
+    <script src="opencpu/opencpu-0.4.js"></script>
+    <!-- some optional styling stuff -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="jqueryui/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" media="screen">
+
+    <script src="bootstrap/js/bootstrap.js"> </script>
+    <script src="jqueryui/jquery-ui-1.10.3.custom.js"> </script>
+
+    <script>
+	$(document).ready(function(){
+  
+  function uploadcsv(file, header){
+    //disable the button during upload
+    $("#submitbutton").attr("disabled", "disabled");        
+    
+    //perform the request
+    var req1 = ocpu.call("readcsvnew", {
+      file : file,
+      header : header
+    }, function(session){
+      //on success call lift()
+      lift(session);
+    });
+    
+    //if R returns an error, alert the error message
+    req1.fail(function(){
+      alert("Server error: " + req.responseText);
+    });
+    
+    //after request complete, re-enable the button 
+    req1.always(function(){
+      $("#submitbutton").removeAttr("disabled")
+    });        
+  }    
+  
+  
+  function lift(mydata){
+    //perform the request
+    var req2 = ocpu.call("lift", {
+	      causal_data : mydata,
+          pre_period_start_date : $("#pre_period_start_date_field").val(), 
+		  pre_period_end_date : $("#pre_period_end_date_field").val(), 
+		  post_period_start_date : $("#post_period_start_date_field").val(), 
+		  post_period_end_date : $("#post_period_end_date_field").val(), 
+		  season_number : $("#season_number_field").val(), 
+		  season_duration : $("#season_duration_field").val()
+    }, function(session){
+      session.getConsole(function(output){
+        $("#output code").text(output);
+      });
+    }, function(session){
+        
+    //read the session properties (just for fun)
+    $("#printlink").attr("href", session.getLoc() + "/zip");
+	$("img").attr("src", session.getLoc() + "files/heatmap.png");
+      });
+    }).fail(function(){
+      alert("Server error: " + req2.responseText);
+    });  
+ 
+    </script>
+    
+    <style>
+    p {
+      max-width: 600px;
+    }
+    #output{
+      min-height: 200px;
+      border: solid gray 1px;
+    }
+    </style>
+    
+  </head>
+  
+
+  <body>
+  <div class="container">
+
+    <div class="page-header">
+      <h1>Causal Impact Calculator</h1>
+    </div>
+    
+    <div class="row">
+      <div class="span3">
+
+        <form class="well" id="paramform">
+          <fieldset>
+            <legend>Parameters</legend>
+            <label>Pre-Period Start Date</label> 
+            <input class="input-medium" id="pre_period_start_date_field" type="text" value="1"></input>
+            <label>Pre-Period End Date</label> 
+            <input class="input-medium" id="pre_period_end_date_field" type="text" value="30"></input>
+            <label>Post-Period Start Date</label> 
+            <input class="input-medium" id="post_period_start_date_field" type="text" value="31"></input>
+            <label>Post-Period End Date</label> 
+            <input class="input-medium" id="post_period_end_date_field" type="text" value="60"></input>
+            <label>Number of Seasons</label> 
+            <input class="input-medium" id="season_number_field" type="text" value="7"></input>
+            <label>Duration of Season</label> 
+            <input class="input-medium" id="season_number_field" type="text" value="1"></input>
+            <label>Type</label> 
+            <select class="input-medium" id="type">
+              <option value="users">Github User</option>
+              <option value="orgs">Github Organization</option>
+            </select> 
+           <input type="file" id="csvfile"> 
+    
+    <b>Header</b> <select id="header">
+      <option>true</option>
+      <option>false</option>
+    </select> 
+    
+    <br />
+    <button id="submitbutton" type="button">Upload CSV file!</button>
+    <br>
+            
+            <br />
+            
+            <button class="btn btn-small btn-primary" id="plotbutton"><i class="icon-ok icon-white"></i> Update Plot</button>
+          </fieldset>
+        </form>
+      </div>
+	  
+	  	<div class="span1">
+	 <legend>Export your chart:</legend>
+
+    <ol>
+      <li><a target="_blank" id="printlink">Download Zip File</a></li>
+    </ol>
+
+      </div>
+      
+      <div class="span9">
+        <div id="plotdiv"><img width="1165"></div>
+		<br />
+		<pre id="output"><code></code></pre>
+      </div>
+	  
+    </div>
+      
+
+  </div>
+</body>
+</html>
