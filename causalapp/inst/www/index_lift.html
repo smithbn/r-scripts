@@ -45,10 +45,8 @@
     //perform the request
     var req2 = ocpu.call("lift", {
 	      causal_data : mydata,
-          pre_period_start_date : $("#pre_period_start_date_field").val(), 
-		  pre_period_end_date : $("#pre_period_end_date_field").val(), 
-		  post_period_start_date : $("#post_period_start_date_field").val(), 
-		  post_period_end_date : $("#post_period_end_date_field").val(), 
+          data_start_date : $("#pre_period_start_date_field").val(), 
+		  test_start_date : $("#post_period_start_date_field").val(), 
 		  season_number : $("#season_number_field").val(), 
 		  season_duration : $("#season_duration_field").val()
     }, function(session){
@@ -95,12 +93,8 @@
             <legend>Parameters</legend>
             <label>Pre-Period Start Date</label> 
             <input class="input-medium" id="pre_period_start_date_field" type="text" value="1"></input>
-            <label>Pre-Period End Date</label> 
-            <input class="input-medium" id="pre_period_end_date_field" type="text" value="30"></input>
             <label>Post-Period Start Date</label> 
             <input class="input-medium" id="post_period_start_date_field" type="text" value="31"></input>
-            <label>Post-Period End Date</label> 
-            <input class="input-medium" id="post_period_end_date_field" type="text" value="60"></input>
             <label>Number of Seasons</label> 
             <input class="input-medium" id="season_number_field" type="text" value="7"></input>
             <label>Duration of Season</label> 
