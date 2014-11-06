@@ -3,8 +3,8 @@
 \alias{lift}
 \title{A function to create a causal impact report from event data.}
 \usage{
-lift(causal_data, pre_period_start_date, pre_period_end_date,
-  post_period_start_date, post_period_end_date, season_number, season_duration)
+lift(causal_data, data_start_date, test_start_date, season_number,
+  season_duration)
 }
 \arguments{
 \item{file}{read in a csv file.}
