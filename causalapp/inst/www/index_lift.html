@@ -21,25 +21,24 @@
     $("#submitbutton").attr("disabled", "disabled");        
     
     //perform the request
-    var req1 = ocpu.call("readcsvnew", {
+    var req = ocpu.call("readcsvnew", {
       file : file,
       header : header
     }, function(session){
-      //on success call lift()
+      //on success call heatmap_calendar()
       lift(session);
     });
     
     //if R returns an error, alert the error message
-    req1.fail(function(){
+    req.fail(function(){
       alert("Server error: " + req.responseText);
     });
     
     //after request complete, re-enable the button 
-    req1.always(function(){
+    req.always(function(){
       $("#submitbutton").removeAttr("disabled")
     });        
   }    
-  
   
   function lift(mydata){
     //perform the request
@@ -50,18 +49,27 @@
 		  season_number : $("#season_number_field").val(), 
 		  season_duration : $("#season_duration_field").val()
     }, function(session){
-      session.getConsole(function(output){
-        $("#output code").text(output);
-      });
-    }, function(session){
-        
-    //read the session properties (just for fun)
+    $("#output code").text(output);
     $("#printlink").attr("href", session.getLoc() + "/zip");
-	$("img").attr("src", session.getLoc() + "files/heatmap.png");
-      });
-    }).fail(function(){
-      alert("Server error: " + req2.responseText);
-    });  
+	$("img").attr("src", session.getLoc() + "files/impactplot.png");
+})
+  }
+
+  $("#submitbutton").on("click", function(){
+    
+    //arguments
+    var myheader = $("#header").val() == "true";
+    var myfile = $("#csvfile")[0].files[0];
+    
+    if(!myfile){
+      alert("No file selected.");
+      return;
+    }
+    
+    uploadcsv(myfile, myheader);        
+  });
+});
+
  
     </script>
     
