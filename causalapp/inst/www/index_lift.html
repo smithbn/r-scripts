@@ -53,7 +53,8 @@
     $("#output code").text(output);
 	})
     $("#printlink").attr("href", session.getLoc() + "/zip");
-	$("img").attr("src", session.getLoc() + "files/impactplot.png");
+	$("#impactplot").attr("src", session.getLoc() + "files/impactplot.png");
+    $("#dataplot").attr("src", session.getLoc() + "files/dataplot.png");
 })
   }
 
@@ -133,7 +134,9 @@
       </div>
       
       <div class="span9">
-        <div id="plotdiv"><img width="1165"></div>
+	    <div id="dataplot"><img width="1165"></div>
+		<br />
+        <div id="impactplot"><img width="1165"></div>
 		<br />
 		<pre id="output"><code></code></pre>
       </div>
