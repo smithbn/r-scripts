@@ -10,6 +10,8 @@ lift <- function(causal_data, data_start_date, test_start_date, season_number, s
   require('CausalImpact')
   require('lubridate')
   causal_data <- causal_data
+  season_number <- as.numeric(as.character(season_number))
+  season_duration <- as.numeric(as.character(season_duration))
   pre_period_end_date <- (ymd(test_start_date) - ymd(data_start_date)) - 1
   post_period_start_date <- pre_period_end_date + 1
   post_period_end_date <- length(causal_data[,1])
