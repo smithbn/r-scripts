@@ -1,12 +1,12 @@
-#' A function to create a causal impact report from event data.
+#' A function to create a causal impact report from event data in a time series format.
 #'
 #' This function creates one causal impact report.
 #' @param file read in a csv file.
 #' @keywords event data
 #' @export
 #' @examples
-#' lift()
-lift <- function(causal_data, data_start_date, test_start_date, season_number, season_duration){
+#' lift_ts()
+lift_ts <- function(causal_data, data_start_date, test_start_date, season_number, season_duration){
   require('CausalImpact')
   require('lubridate')
   require('zoo')
