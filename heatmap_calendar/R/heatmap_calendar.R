@@ -48,7 +48,7 @@ heatmap_calendar <- function(mydata){
     colnames(daily_events) <- c("event_date", "event_num")
 	daily_events <- daily_events[daily_events$event_date!='NaN-NaN-NaN',]
 	daily_events <- daily_events[daily_events$event_date!='',]
-	daily_events <- daily_events[nchar(as.character(daily_events$event_date))=10,]
+	daily_events <- daily_events[which(nchar(as.character(daily_events$event_date))=10),]
     daily_events$event_date <- ymd(daily_events$event_date, quiet = TRUE)
 	daily_events <- daily_events[which(as.character(daily_events$event_date)!='NA'),]
 	daily_events <- aggregate(x = as.numeric(as.character(daily_events$event_num)), by = list(daily_events$event_date), FUN = "sum")
